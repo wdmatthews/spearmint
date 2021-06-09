@@ -11,7 +11,8 @@
 export default {
   methods: {
     logout() {
-      
+      const { realmApp } = window
+      realmApp.currentUser?.logOut()
     },
   },
 }

@@ -20,7 +20,12 @@
         </v-list-item-content>
       </v-list-item>
     </v-list>
-    <template v-if="true">
+    <template v-if="realmApp && realmApp.currentUser">
+      <div class="text-center my-4">
+        <LogoutButton />
+      </div>
+    </template>
+    <template v-else>
       <div class="text-center mt-4">
         <LoginButton />
       </div>
@@ -28,16 +33,17 @@
         <RegisterButton />
       </div>
     </template>
-    <template v-else>
-      <div class="text-center my-4">
-        <LogoutButton />
-      </div>
-    </template>
   </v-navigation-drawer>
 </template>
 
 <script>
 export default {
+  props: {
+    realmApp: {
+      type: Object,
+      default: null,
+    },
+  },
   data: vm => ({
     show: null,
     links: [

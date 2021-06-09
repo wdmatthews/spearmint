@@ -1,6 +1,9 @@
 <template>
   <v-app>
-    <TheNavigationDrawer ref="navigationDrawer" />
+    <TheNavigationDrawer
+      ref="navigationDrawer"
+      :realm-app="realmApp"
+    />
     <TheAppBar
       ref="appBar"
       @toggle-navigation="$refs.navigationDrawer.toggleShow()"
@@ -14,7 +17,17 @@
 </template>
 
 <script>
+import * as Realm from 'realm-web'
+
 export default {
-  
+  data: vm => ({
+    realmApp: null,
+  }),
+  mounted() {
+    if (!window.realmApp) {
+      window.realmApp = new Realm.App(this.$config.realmAppId)
+      this.realmApp = window.realmApp
+    }
+  },
 }
 </script>

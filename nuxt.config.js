@@ -67,4 +67,8 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
   },
+  
+  publicRuntimeConfig: {
+    realmAppId: process.env.REALM_APP_ID,
+  },
 }

@@ -13,6 +13,14 @@
           v-model="isValid"
           @submit.prevent="login"
         >
+          <v-alert
+            v-model="loginFailed"
+            color="error"
+            text
+            dismissible
+          >
+            Incorrect username or password.
+          </v-alert>
           <UsernameField
             ref="usernameField"
             v-model="username"
@@ -48,12 +56,15 @@
 </template>
 
 <script>
+import * as Realm from 'realm-web'
+
 export default {
   data: vm => ({
     show: false,
     isValid: false,
     username: '',
     password: '',
+    loginFailed: false,
   }),
   methods: {
     open() {
@@ -66,9 +77,17 @@ export default {
     close() {
       this.show = false
     },
-    login() {
+    async login() {
       if (!this.isValid) { return }
-      this.close()
+      const { realmApp } = window
+      const credentials = Realm.Credentials.emailPassword(this.username, this.password)
+      
+      try {
+        await realmApp.logIn(credentials)
+        this.close()
+      } catch (error) {
+        this.loginFailed = true
+      }
     },
   },
 }
