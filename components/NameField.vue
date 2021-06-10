@@ -1,8 +1,7 @@
 <template>
   <v-text-field
     ref="field"
-    label="Password"
-    type="password"
+    label="Name"
     outlined
     :counter="maxLength"
     :rules="rules"
@@ -13,7 +12,7 @@
 </template>
 
 <script>
-import passwordValidation from '@/assets/js/validation/password.js'
+import nameValidation from '@/assets/js/validation/name.js'
 import validationRules from '@/assets/js/validation/rules.js'
 
 export default {
@@ -24,11 +23,10 @@ export default {
     },
   },
   data: vm => ({
-    maxLength: passwordValidation.maxLength,
+    maxLength: nameValidation.maxLength,
     rules: [
       validationRules.required,
-      validationRules.minLength(passwordValidation.minLength),
-      validationRules.maxLength(passwordValidation.maxLength),
+      validationRules.maxLength(nameValidation.maxLength),
     ],
   }),
   methods: {

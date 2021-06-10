@@ -12,6 +12,9 @@
 </template>
 
 <script>
+import usernameValidation from '@/assets/js/validation/username.js'
+import validationRules from '@/assets/js/validation/rules.js'
+
 export default {
   props: {
     value: {
@@ -20,10 +23,10 @@ export default {
     },
   },
   data: vm => ({
-    maxLength: 50,
+    maxLength: usernameValidation.maxLength,
     rules: [
-      v => !!v || 'Required',
-      v => !v || v.length < vm.maxLength || `Max of ${vm.maxLength} characters`,
+      validationRules.required,
+      validationRules.maxLength(usernameValidation.maxLength),
     ],
   }),
   methods: {

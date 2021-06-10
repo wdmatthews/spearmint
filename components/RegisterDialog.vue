@@ -21,6 +21,11 @@
           >
             Account already exists.
           </v-alert>
+          <NameField
+            ref="nameField"
+            v-model="name"
+            @submit="register"
+          />
           <UsernameField
             ref="usernameField"
             v-model="username"
@@ -56,10 +61,14 @@
 </template>
 
 <script>
+import * as Realm from 'realm-web'
+import userInitialize from '@/assets/js/functions/userInitialize.js'
+
 export default {
   data: vm => ({
     show: false,
     isValid: false,
+    name: '',
     username: '',
     password: '',
     registerFailed: false,
@@ -67,8 +76,10 @@ export default {
   methods: {
     open() {
       this.show = true
+      this.name = ''
       this.username = ''
       this.password = ''
+      this.$refs.nameField?.resetValidation()
       this.$refs.usernameField?.resetValidation()
       this.$refs.passwordField?.resetValidation()
     },
@@ -81,7 +92,15 @@ export default {
       
       try {
         await realmApp.emailPasswordAuth.registerUser(this.username, this.password)
-        this.close()
+        const credentials = Realm.Credentials.emailPassword(this.username, this.password)
+        
+        try {
+          await realmApp.logIn(credentials)
+          await userInitialize(realmApp, this.name)
+          this.close()
+        } catch (error) {
+          this.loginFailed = true
+        }
       } catch (error) {
         this.registerFailed = true
       }

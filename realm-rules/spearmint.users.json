@@ -1,0 +1,68 @@
+{
+  "roles": [
+    {
+      "name": "owner",
+      "apply_when": {
+        "userId": "%%user.id"
+      },
+      "fields": {
+        "_id": {
+          "write": {
+            "%%prevRoot": {
+              "%exists": false
+            }
+          }
+        },
+        "name": {
+          "write": true
+        },
+        "userId": {
+          "write": {
+            "%%prevRoot": {
+              "%exists": false
+            }
+          }
+        }
+      },
+      "insert": true,
+      "delete": true,
+      "search": true,
+      "additional_fields": {}
+    },
+    {
+      "name": "thirdParty",
+      "apply_when": {},
+      "read": false,
+      "write": false,
+      "search": false,
+      "additional_fields": {}
+    }
+  ],
+  "schema": {
+    "bsonType": "object",
+    "title": "User",
+    "required": [
+      "_id",
+      "userId",
+      "name"
+    ],
+    "properties": {
+      "_id": {
+        "bsonType": "objectId"
+      },
+      "userId": {
+        "bsonType": "string"
+      },
+      "name": {
+        "bsonType": "string",
+        "maxLength": {
+          "$numberInt": "100"
+        },
+        "minLength": {
+          "$numberInt": "1"
+        }
+      }
+    },
+    "additionalProperties": false
+  }
+}

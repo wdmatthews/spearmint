@@ -1,0 +1,127 @@
+{
+  "roles": [
+    {
+      "name": "sender",
+      "apply_when": {
+        "senderId": "%%user.id"
+      },
+      "fields": {
+        "_id": {
+          "write": {
+            "%%prevRoot": {
+              "%exists": false
+            }
+          }
+        },
+        "content": {
+          "write": true
+        },
+        "receiverId": {
+          "write": {
+            "%%prevRoot": {
+              "%exists": false
+            }
+          }
+        },
+        "senderId": {
+          "write": {
+            "%%prevRoot": {
+              "%exists": false
+            }
+          }
+        },
+        "time": {
+          "write": {
+            "%%prevRoot": {
+              "%exists": false
+            }
+          }
+        }
+      },
+      "read": true,
+      "insert": true,
+      "delete": true,
+      "search": true,
+      "additional_fields": {}
+    },
+    {
+      "name": "receiver",
+      "apply_when": {
+        "%or": [
+          {
+            "receiverId": {
+              "$eq": "%%user.id"
+            }
+          },
+          {
+            "%%true": {
+              "%function": {
+                "name": "isGroupMember",
+                "arguments": [
+                  "groupId"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "fields": {
+        "_id": {},
+        "content": {},
+        "receiverId": {},
+        "senderId": {},
+        "time": {}
+      },
+      "read": true,
+      "write": false,
+      "insert": false,
+      "delete": false,
+      "search": true,
+      "additional_fields": {}
+    },
+    {
+      "name": "thirdParty",
+      "apply_when": {},
+      "read": false,
+      "write": false,
+      "search": false,
+      "additional_fields": {}
+    }
+  ],
+  "schema": {
+    "bsonType": "object",
+    "title": "Message",
+    "required": [
+      "senderId",
+      "time",
+      "content"
+    ],
+    "properties": {
+      "_id": {
+        "bsonType": "objectId"
+      },
+      "senderId": {
+        "bsonType": "string"
+      },
+      "receiverId": {
+        "bsonType": "string"
+      },
+      "groupId": {
+        "bsonType": "objectId"
+      },
+      "time": {
+        "bsonType": "timestamp"
+      },
+      "content": {
+        "bsonType": "string",
+        "maxLength": {
+          "$numberInt": "1000"
+        },
+        "minLength": {
+          "$numberInt": "1"
+        }
+      }
+    },
+    "additionalProperties": false
+  }
+}

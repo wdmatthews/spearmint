@@ -1,0 +1,100 @@
+{
+  "roles": [
+    {
+      "name": "admin",
+      "apply_when": {
+        "adminId": "%%user.id"
+      },
+      "fields": {
+        "_id": {
+          "write": {
+            "%%prevRoot": {
+              "%exists": false
+            }
+          }
+        },
+        "adminId": {
+          "write": {
+            "%%prevRoot": {
+              "%exists": false
+            }
+          }
+        },
+        "memberIds": {
+          "write": true
+        },
+        "name": {
+          "write": true
+        }
+      },
+      "read": true,
+      "insert": true,
+      "delete": true,
+      "search": true,
+      "additional_fields": {}
+    },
+    {
+      "name": "member",
+      "apply_when": {
+        "%%user.id": {
+          "in": "memberIds"
+        }
+      },
+      "read": true,
+      "write": false,
+      "insert": false,
+      "delete": false,
+      "search": true,
+      "additional_fields": {}
+    },
+    {
+      "name": "thirdParty",
+      "apply_when": {},
+      "read": false,
+      "write": false,
+      "search": false,
+      "additional_fields": {}
+    }
+  ],
+  "schema": {
+    "bsonType": "object",
+    "title": "Group",
+    "required": [
+      "_id",
+      "adminId",
+      "memberIds",
+      "name"
+    ],
+    "properties": {
+      "_id": {
+        "bsonType": "objectId"
+      },
+      "adminId": {
+        "bsonType": "string"
+      },
+      "memberIds": {
+        "bsonType": "array",
+        "items": {
+          "bsonType": "string"
+        },
+        "maxItems": {
+          "$numberInt": "100"
+        },
+        "minItems": {
+          "$numberInt": "3"
+        },
+        "additionalItems": false
+      },
+      "name": {
+        "bsonType": "string",
+        "maxLength": {
+          "$numberInt": "100"
+        },
+        "minLength": {
+          "$numberInt": "1"
+        }
+      }
+    },
+    "additionalProperties": false
+  }
+}
