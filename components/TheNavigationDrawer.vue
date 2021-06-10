@@ -20,19 +20,19 @@
         </v-list-item-content>
       </v-list-item>
     </v-list>
-    <template v-if="realmApp && realmApp.currentUser">
+    <div v-show="realmApp && realmApp.currentUser">
       <div class="text-center my-4">
         <LogoutButton />
       </div>
-    </template>
-    <template v-else>
+    </div>
+    <div v-show="!realmApp || !realmApp.currentUser">
       <div class="text-center mt-4">
         <LoginButton />
       </div>
       <div class="text-center my-4">
         <RegisterButton />
       </div>
-    </template>
+    </div>
   </v-navigation-drawer>
 </template>
 

@@ -21,10 +21,12 @@ export default {
     },
   },
   data: vm => ({
+    minLength: 8,
     maxLength: 50,
     rules: [
       v => !!v || 'Required',
-      v => !v || v.length < vm.maxLength || `Max of ${vm.maxLength} characters`,
+      v => !v || v.length >= vm.minLength || `${vm.minLength} characters minimum`,
+      v => !v || v.length <= vm.maxLength || `${vm.maxLength} characters maximum`,
     ],
   }),
   methods: {

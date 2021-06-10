@@ -13,6 +13,14 @@
           v-model="isValid"
           @submit.prevent="register"
         >
+          <v-alert
+            v-model="registerFailed"
+            color="error"
+            text
+            dismissible
+          >
+            Account already exists.
+          </v-alert>
           <UsernameField
             ref="usernameField"
             v-model="username"
@@ -54,6 +62,7 @@ export default {
     isValid: false,
     username: '',
     password: '',
+    registerFailed: false,
   }),
   methods: {
     open() {
@@ -66,9 +75,16 @@ export default {
     close() {
       this.show = false
     },
-    register() {
+    async register() {
       if (!this.isValid) { return }
-      this.close()
+      const { realmApp } = window
+      
+      try {
+        await realmApp.emailPasswordAuth.registerUser(this.username, this.password)
+        this.close()
+      } catch (error) {
+        this.registerFailed = true
+      }
     },
   },
 }
