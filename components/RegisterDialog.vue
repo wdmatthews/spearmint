@@ -89,6 +89,7 @@ export default {
     async register() {
       if (!this.isValid) { return }
       const { realmApp } = window
+      if (!realmApp || realmApp.currentUser) { return }
       
       try {
         await realmApp.emailPasswordAuth.registerUser(this.username, this.password)

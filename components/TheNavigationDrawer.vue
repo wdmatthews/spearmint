@@ -62,6 +62,16 @@ export default {
       },
     ],
   }),
+  computed: {
+    linksRequiringAuthentication() {
+      return this.links.reduce((links, link) => links.concat(link.to), [])
+    },
+  },
+  mounted() {
+    if (!this.realmApp?.currentUser && this.linksRequiringAuthentication.includes(this.$route.path)) {
+      this.$router.push('/')
+    }
+  },
   methods: {
     toggleShow() {
       this.show = !this.show

@@ -15,7 +15,12 @@ export default {
   methods: {
     logout() {
       const { realmApp } = window
-      realmApp.currentUser?.logOut()
+      if (!realmApp || !realmApp.currentUser) { return }
+      realmApp.currentUser.logOut()
+      
+      if (this.$route.path === '/profile') {
+        this.$router.push('/')
+      }
     },
   },
 }

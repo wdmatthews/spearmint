@@ -80,6 +80,7 @@ export default {
     async login() {
       if (!this.isValid) { return }
       const { realmApp } = window
+      if (!realmApp || realmApp.currentUser) { return }
       const credentials = Realm.Credentials.emailPassword(this.username, this.password)
       
       try {
