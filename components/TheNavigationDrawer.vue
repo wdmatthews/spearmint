@@ -7,10 +7,11 @@
     <v-list>
       <v-list-item
         v-for="(link, i) in links"
+        v-show="!link.requiresAuthentication || realmApp && realmApp.currentUser"
         :key="i"
-        :to="link.to"
         router
         exact
+        :to="link.to"
       >
         <v-list-item-action>
           <v-icon>{{ link.icon }}</v-icon>
@@ -51,6 +52,13 @@ export default {
         icon: 'mdi-home',
         label: 'Home',
         to: '/',
+        requiresAuthentication: false,
+      },
+      {
+        icon: 'mdi-account',
+        label: 'Profile',
+        to: '/profile',
+        requiresAuthentication: true,
       },
     ],
   }),

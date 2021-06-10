@@ -91,3 +91,6 @@ sw.*
 
 # VS Code editor configuration
 .editorconfig
+
+# Artwork files
+artwork

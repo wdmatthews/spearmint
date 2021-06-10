@@ -3,6 +3,9 @@
     color="primary"
     @click="logout"
   >
+    <v-icon left>
+      mdi-logout-variant
+    </v-icon>
     Logout
   </v-btn>
 </template>

@@ -4,6 +4,9 @@
       color="primary"
       @click="openDialog"
     >
+      <v-icon left>
+        mdi-login-variant
+      </v-icon>
       Login
     </v-btn>
     <LoginDialog ref="loginDialog" />

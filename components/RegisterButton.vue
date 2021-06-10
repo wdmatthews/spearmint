@@ -4,6 +4,9 @@
       color="secondary"
       @click="openDialog"
     >
+      <v-icon left>
+        mdi-account-plus
+      </v-icon>
       Register
     </v-btn>
     <RegisterDialog ref="registerDialog" />
