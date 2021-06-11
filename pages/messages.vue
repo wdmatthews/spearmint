@@ -31,6 +31,7 @@ export default {
         isOwnedByCurrentUser: false,
       },
     ],
+    messageWasReceived: false,
   }),
   mounted() {
     const { realmApp } = window
@@ -46,6 +47,21 @@ export default {
     }
     
     this.load()
+    
+    // setInterval(() => {
+    //   this.receiveMessage({
+    //     _id: Date.now().toString(),
+    //     time: Date.now(),
+    //     content: 'Message',
+    //     isOwnedByCurrentUser: Math.random() < 0.5,
+    //   })
+    // }, 1000)
+  },
+  updated() {
+    if (this.messageWasReceived) {
+      window.scrollTo(0, document.body.scrollHeight)
+      this.messageWasReceived = false
+    }
   },
   methods: {
     load() {
@@ -57,6 +73,10 @@ export default {
       }
       
       this.user = realmApp.currentUser
+    },
+    receiveMessage(message) {
+      this.messages.push(message)
+      this.messageWasReceived = true
     },
     editMessage(message, newContent) {
       message.content = newContent
