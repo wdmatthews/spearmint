@@ -25,7 +25,7 @@ export default {
       if (!realmApp || !realmApp.currentUser) { return }
       realmApp.currentUser.logOut()
       
-      if (this.$route.path === '/profile') {
+      if (this.$route.path === '/profile' || this.$route.path === '/messages') {
         this.$router.push('/')
       }
     },

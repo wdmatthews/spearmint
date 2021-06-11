@@ -11,6 +11,7 @@
     <v-main>
       <nuxt />
     </v-main>
+    <TheMessageFooter />
   </v-app>
 </template>
 

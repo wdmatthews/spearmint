@@ -1,42 +1,56 @@
 <template>
   <v-navigation-drawer
-    ref="navigationDrawer"
     v-model="show"
     clipped
     app
-    :mini-variant="canBeMini"
-    :expand-on-hover="canBeMini"
   >
-    <v-list>
-      <v-list-item
-        v-for="(link, i) in links"
-        v-show="!link.requiresAuthentication || realmApp && realmApp.currentUser"
-        :key="i"
-        router
-        exact
-        :to="link.to"
+    <v-row
+      no-gutters
+      class="fill-height"
+    >
+      <v-navigation-drawer
+        ref="navigationDrawer"
+        permanent
+        :mini-variant="isMessagesPage"
       >
-        <v-list-item-action>
-          <v-icon>{{ link.icon }}</v-icon>
-        </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title v-text="link.label" />
-        </v-list-item-content>
-      </v-list-item>
-    </v-list>
-    <div v-show="realmApp && realmApp.currentUser">
-      <div class="text-center my-4">
-        <LogoutButton :only-icon="isMini" />
-      </div>
-    </div>
-    <div v-show="!realmApp || !realmApp.currentUser">
-      <div class="text-center mt-4">
-        <LoginButton />
-      </div>
-      <div class="text-center my-4">
-        <RegisterButton />
-      </div>
-    </div>
+        <v-list>
+          <v-list-item
+            v-for="(link, i) in links"
+            v-show="!link.requiresAuthentication && (!realmApp || !realmApp.currentUser)
+              || !link.requiresNoAuthentication && realmApp && realmApp.currentUser"
+            :key="i"
+            router
+            exact
+            :to="link.to"
+          >
+            <v-list-item-action>
+              <v-icon>{{ link.icon }}</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title v-text="link.label" />
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+        <div v-show="realmApp && realmApp.currentUser">
+          <div class="text-center my-4">
+            <LogoutButton :only-icon="isMessagesPage" />
+          </div>
+        </div>
+        <div v-show="!realmApp || !realmApp.currentUser">
+          <div class="text-center mt-4">
+            <LoginButton />
+          </div>
+          <div class="text-center my-4">
+            <RegisterButton />
+          </div>
+        </div>
+      </v-navigation-drawer>
+      <TheContactList
+        v-if="isMessagesPage"
+        class="grow"
+        :user="realmApp ? realmApp.currentUser : null"
+      />
+    </v-row>
   </v-navigation-drawer>
 </template>
 
@@ -49,14 +63,13 @@ export default {
     },
   },
   data: vm => ({
-    isMounted: false,
     show: null,
     links: [
       {
         icon: 'mdi-home',
         label: 'Home',
         to: '/',
-        requiresAuthentication: false,
+        requiresNoAuthentication: true,
       },
       {
         icon: 'mdi-account',
@@ -76,26 +89,22 @@ export default {
     linksRequiringAuthentication() {
       return this.links.reduce((links, link) => links.concat(link.to), [])
     },
-    canBeMini() {
-      return !this.isMobile && this.$route.path === '/messages'
-    },
-    isMobile() {
-      return this.$vuetify.breakpoint.xs || this.$vuetify.breakpoint.sm
-    },
-    isMini() {
-      return this.canBeMini && this.isMounted && this.$refs.navigationDrawer.isMiniVariant
+    isMessagesPage() {
+      return this.$route.path === '/messages'
     },
   },
   mounted() {
-    this.isMounted = true
-    
-    if (!this.realmApp?.currentUser && this.linksRequiringAuthentication.includes(this.$route.path)) {
-      this.$router.push('/')
-    }
+    addEventListener('resize', this.showSubNavigationDrawer)
   },
   methods: {
     toggleShow() {
       this.show = !this.show
+      this.showSubNavigationDrawer()
+    },
+    showSubNavigationDrawer() {
+      if (this.$refs.navigationDrawer) {
+        this.$refs.navigationDrawer.isActive = true
+      }
     },
   },
 }

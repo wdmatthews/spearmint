@@ -125,6 +125,10 @@ export default {
       try {
         await realmApp.logIn(credentials)
         this.close()
+        
+        if (this.$route.path === '/') {
+          this.$router.push('/messages')
+        }
       } catch (error) {
         this.loginFailed = true
       }

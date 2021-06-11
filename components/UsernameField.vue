@@ -7,7 +7,7 @@
     :rules="rules"
     :value="value"
     @input="$emit('input', $event)"
-    @keydown="submitForm"
+    @keyup="submitForm"
   />
 </template>
 

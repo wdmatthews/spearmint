@@ -1,19 +1,21 @@
 <template>
-  <v-text-field
+  <v-textarea
     ref="field"
-    type="password"
     outlined
+    auto-grow
+    rows="1"
+    hint="Shift + Enter to add a new line"
     :label="label"
     :counter="maxLength"
     :rules="rules"
     :value="value"
     @input="$emit('input', $event)"
-    @keyup="submitForm"
+    @keydown="submitForm"
   />
 </template>
 
 <script>
-import passwordValidation from '@/assets/js/validation/password.js'
+import messageValidation from '@/assets/js/validation/message.js'
 import validationRules from '@/assets/js/validation/rules.js'
 
 export default {
@@ -24,7 +26,7 @@ export default {
     },
     label: {
       type: String,
-      default: 'Password',
+      default: 'Message',
     },
     additionalRules: {
       type: Array,
@@ -32,11 +34,10 @@ export default {
     },
   },
   data: vm => ({
-    maxLength: passwordValidation.maxLength,
+    maxLength: messageValidation.maxLength,
     rules: [
       validationRules.required,
-      validationRules.minLength(passwordValidation.minLength),
-      validationRules.maxLength(passwordValidation.maxLength),
+      validationRules.maxLength(messageValidation.maxLength),
       ...vm.additionalRules,
     ],
   }),
@@ -45,7 +46,9 @@ export default {
       this.$refs.field?.resetValidation()
     },
     submitForm(event) {
-      if (event && event.key === 'Enter') {
+      if (event && event.key === 'Enter' && !event.shiftKey
+        && this.$refs.field.$refs.input.selectionEnd === this.value.length) {
+        event.preventDefault()
         this.$emit('submit')
       }
     },

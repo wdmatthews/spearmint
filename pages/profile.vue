@@ -225,7 +225,7 @@ import userSetName from '@/assets/js/functions/userSetName.js'
 export default {
   data: vm => ({
     tab: 0,
-    user: false,
+    user: null,
     changeNameIsValid: false,
     changeNameValue: '',
     deleteAccountIsValid: false,
