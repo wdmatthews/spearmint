@@ -89,9 +89,6 @@
         "bsonType": "string",
         "maxLength": {
           "$numberInt": "100"
-        },
-        "minLength": {
-          "$numberInt": "1"
         }
       }
     },

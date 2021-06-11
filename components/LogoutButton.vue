@@ -1,6 +1,6 @@
 <template>
   <v-btn
-    color="primary"
+    color="primary darken-1"
     @click="logout"
   >
     <v-icon left>

@@ -24,6 +24,7 @@
           }
         }
       },
+      "read": true,
       "insert": true,
       "delete": true,
       "search": true,

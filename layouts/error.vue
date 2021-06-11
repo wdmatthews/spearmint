@@ -4,11 +4,13 @@
       no-gutters
       justify="center"
       align="center"
+      class="pa-4"
+      :style="{ 'max-height': `calc(100vh - ${appBarHeight}px)` }"
     >
       <v-card>
         <v-img
           class="mx-auto"
-          style="max-width: 512px; max-height: 512px;"
+          style="max-width: 256px; max-height: 256px;"
           :src="isError404 ? '/404.png' : '/error.png'"
         />
         <v-card-title class="pa-4">
@@ -50,6 +52,9 @@ export default {
   computed: {
     isError404() {
       return this.error.statusCode === 404
+    },
+    appBarHeight() {
+      return (this.$vuetify.breakpoint === 'xs' || this.$vuetify.breakpoint === 'sm') ? 56 : 64
     },
   },
 }

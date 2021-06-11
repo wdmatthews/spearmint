@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-btn
-      color="primary"
+      color="primary darken-1"
       @click="openDialog"
     >
       <v-icon left>
