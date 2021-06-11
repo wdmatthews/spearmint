@@ -23,8 +23,8 @@
       <v-btn
         color="primary"
         icon
-        class="ml-4"
-        style="padding-bottom: 30px"
+        class="ml-2"
+        style="margin-bottom: 30px"
         :disabled="!messageIsValid"
         @click="sendMessage"
       >
@@ -45,7 +45,7 @@ export default {
   methods: {
     sendMessage() {
       if (!this.messageIsValid) { return }
-      console.log(this.message)
+      
       this.message = ''
       this.$refs.messageField.resetValidation()
     },

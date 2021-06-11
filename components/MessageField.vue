@@ -1,11 +1,11 @@
 <template>
   <v-textarea
     ref="field"
+    label="Message"
     outlined
     auto-grow
     rows="1"
     hint="Shift + Enter to add a new line"
-    :label="label"
     :counter="maxLength"
     :rules="rules"
     :value="value"
@@ -23,10 +23,6 @@ export default {
     value: {
       type: String,
       default: '',
-    },
-    label: {
-      type: String,
-      default: 'Message',
     },
     additionalRules: {
       type: Array,

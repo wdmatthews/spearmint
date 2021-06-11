@@ -2,7 +2,6 @@
   <v-dialog
     v-model="show"
     max-width="500"
-    @click:outside="close"
   >
     <v-card>
       <v-card-title class="pa-4">

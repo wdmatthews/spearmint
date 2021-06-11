@@ -107,10 +107,10 @@
         "bsonType": "string"
       },
       "groupId": {
-        "bsonType": "objectId"
+        "bsonType": "string"
       },
       "time": {
-        "bsonType": "timestamp"
+        "bsonType": "date"
       },
       "content": {
         "bsonType": "string",
