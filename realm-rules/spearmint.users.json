@@ -33,7 +33,15 @@
     {
       "name": "thirdParty",
       "apply_when": {},
-      "read": false,
+      "fields": {
+        "_id": {},
+        "name": {
+          "read": true
+        },
+        "userId": {
+          "read": true
+        }
+      },
       "write": false,
       "search": false,
       "additional_fields": {}

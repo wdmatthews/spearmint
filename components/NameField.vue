@@ -3,6 +3,8 @@
     ref="field"
     label="Name"
     outlined
+    :hint="hint"
+    :persistent-hint="!!hint"
     :counter="maxLength"
     :rules="rules"
     :value="value"
@@ -21,12 +23,21 @@ export default {
       type: String,
       default: '',
     },
+    hint: {
+      type: String,
+      default: '',
+    },
+    additionalRules: {
+      type: Array,
+      default: () => [],
+    },
   },
   data: vm => ({
     maxLength: nameValidation.maxLength,
     rules: [
       validationRules.required,
       validationRules.maxLength(nameValidation.maxLength),
+      ...vm.additionalRules,
     ],
   }),
   methods: {

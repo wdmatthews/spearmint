@@ -33,7 +33,7 @@
             cols="12"
             md="6"
           >
-            <v-card>
+            <v-card class="mb-4">
               <v-card-title class="pa-4">
                 <span class="mx-auto">Change Name</span>
               </v-card-title>
@@ -56,6 +56,46 @@
                     mdi-pencil
                   </v-icon>
                   Change
+                </v-btn>
+                <v-spacer />
+              </v-card-actions>
+            </v-card>
+            <v-card>
+              <v-card-title class="pa-4">
+                <span class="mx-auto">Delete Account (Example)</span>
+              </v-card-title>
+              <v-card-text class="px-4 py-0">
+                <v-form
+                  v-model="deleteAccountIsValid"
+                  @submit.prevent="deleteAccount"
+                >
+                  <v-alert
+                    color="info"
+                    text
+                  >
+                    This UI is meant to serve as an example, and therefore does not actually delete your account
+                  </v-alert>
+                  <p class="text-center">
+                    Are you sure? <strong>This cannot be undone.</strong>
+                  </p>
+                  <NameField
+                    v-model="deleteAccountNameValue"
+                    hint="Enter your name to confirm"
+                    :additional-rules="[v => user && v === user.customData.name || 'Must match account name']"
+                  />
+                </v-form>
+              </v-card-text>
+              <v-card-actions class="pa-4">
+                <v-spacer />
+                <v-btn
+                  color="error"
+                  :disabled="!deleteAccountIsValid || !user || user.customData.name !== deleteAccountNameValue"
+                  @click="deleteAccount"
+                >
+                  <v-icon left>
+                    mdi-account-remove
+                  </v-icon>
+                  Delete
                 </v-btn>
                 <v-spacer />
               </v-card-actions>
@@ -87,7 +127,7 @@
                     color="info"
                     text
                   >
-                    This UI is meant to serve as an example, and therefore does not actually send a password reset email
+                    This UI is meant to serve as an example, and therefore does not actually send you a password reset email
                   </v-alert>
                   <EmailField v-model="resetPasswordEmail" />
                 </v-form>
@@ -188,6 +228,8 @@ export default {
     user: false,
     changeNameIsValid: false,
     changeNameValue: '',
+    deleteAccountIsValid: false,
+    deleteAccountNameValue: '',
     resetPasswordIsValid: false,
     resetPasswordEmail: '',
     changePasswordIsValid: false,
@@ -239,6 +281,13 @@ export default {
       const usernameWasSet = await userSetName(realmApp, this.changeNameValue)
       this.showSnackbar(usernameWasSet ? 'success darken-2' : 'error',
         usernameWasSet ? 'Name changed successfully' : 'Error changing name')
+    },
+    deleteAccount() {
+      if (!this.deleteAccountIsValid || !this.user
+        || this.user.customData.name !== this.deleteAccountNameValue) { return }
+      const accountWasDeleted = true
+      this.showSnackbar(accountWasDeleted ? 'success darken-2' : 'error',
+        accountWasDeleted ? 'Account deleted successfully' : 'Error deleting account')
     },
     resetPassword() {
       if (!this.resetPasswordIsValid || !this.user) { return }

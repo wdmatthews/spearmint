@@ -131,7 +131,7 @@ export default {
     },
     resetPassword() {
       // if (!this.email) { return }
-      this.showSnackbar('info darken-2', 'This UI is meant to serve as an example, and therefore does not actually send a password reset email')
+      this.showSnackbar('info darken-2', 'This UI is meant to serve as an example, and therefore does not actually send you a password reset email')
     },
   },
 }
