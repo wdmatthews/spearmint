@@ -54,7 +54,7 @@ export default {
       return this.error.statusCode === 404
     },
     appBarHeight() {
-      return (this.$vuetify.breakpoint === 'xs' || this.$vuetify.breakpoint === 'sm') ? 56 : 64
+      return (this.$vuetify.breakpoint.xs || this.$vuetify.breakpoint.sm) ? 56 : 64
     },
   },
 }

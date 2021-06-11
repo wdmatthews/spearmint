@@ -76,7 +76,7 @@
                     This UI is meant to serve as an example, and therefore does not actually delete your account
                   </v-alert>
                   <p class="text-center">
-                    Are you sure? <strong>This cannot be undone.</strong>
+                    Are you sure? <strong class="error--text">This cannot be undone</strong>
                   </p>
                   <NameField
                     v-model="deleteAccountNameValue"

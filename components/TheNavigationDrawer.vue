@@ -1,8 +1,11 @@
 <template>
   <v-navigation-drawer
+    ref="navigationDrawer"
     v-model="show"
     clipped
     app
+    :mini-variant="canBeMini"
+    :expand-on-hover="canBeMini"
   >
     <v-list>
       <v-list-item
@@ -23,15 +26,15 @@
     </v-list>
     <div v-show="realmApp && realmApp.currentUser">
       <div class="text-center my-4">
-        <LogoutButton />
+        <LogoutButton :only-icon="isMini" />
       </div>
     </div>
-    <div v-show="!realmApp || !realmApp.currentUser">
+    <div v-show="!realmApp || !realmApp.currentUser || true">
       <div class="text-center mt-4">
-        <LoginButton />
+        <LoginButton :only-icon="isMini" />
       </div>
       <div class="text-center my-4">
-        <RegisterButton />
+        <RegisterButton :only-icon="isMini" />
       </div>
     </div>
   </v-navigation-drawer>
@@ -46,6 +49,7 @@ export default {
     },
   },
   data: vm => ({
+    isMounted: false,
     show: null,
     links: [
       {
@@ -60,14 +64,31 @@ export default {
         to: '/profile',
         requiresAuthentication: true,
       },
+      {
+        icon: 'mdi-forum',
+        label: 'Messages',
+        to: '/messages',
+        requiresAuthentication: true,
+      },
     ],
   }),
   computed: {
     linksRequiringAuthentication() {
       return this.links.reduce((links, link) => links.concat(link.to), [])
     },
+    canBeMini() {
+      return !this.isMobile && this.$route.path === '/messages'
+    },
+    isMobile() {
+      return this.$vuetify.breakpoint.xs || this.$vuetify.breakpoint.sm
+    },
+    isMini() {
+      return this.canBeMini && this.isMounted && this.$refs.navigationDrawer.isMiniVariant
+    },
   },
   mounted() {
+    this.isMounted = true
+    
     if (!this.realmApp?.currentUser && this.linksRequiringAuthentication.includes(this.$route.path)) {
       this.$router.push('/')
     }

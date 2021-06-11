@@ -2,12 +2,13 @@
   <div>
     <v-btn
       color="secondary darken-1"
+      :icon="onlyIcon"
       @click="openDialog"
     >
-      <v-icon left>
+      <v-icon :left="!onlyIcon">
         mdi-account-plus
       </v-icon>
-      Register
+      <span v-show="!onlyIcon">Register</span>
     </v-btn>
     <RegisterDialog ref="registerDialog" />
   </div>
@@ -15,6 +16,12 @@
 
 <script>
 export default {
+  props: {
+    onlyIcon: {
+      type: Boolean,
+      default: false,
+    },
+  },
   methods: {
     openDialog() {
       this.$refs.registerDialog.open()
