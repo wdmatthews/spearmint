@@ -1,11 +1,12 @@
 <template>
   <v-text-field
     ref="field"
-    type="password"
+    label="Email"
     outlined
-    :label="label"
-    :counter="maxLength"
-    :rules="rules"
+    :disabled="disabled"
+    :hint="hint"
+    :persistent-hint="hint && disabled"
+    :rules="disabled ? [] : rules"
     :value="value"
     @input="$emit('input', $event)"
     @keydown="submitForm"
@@ -13,7 +14,7 @@
 </template>
 
 <script>
-import passwordValidation from '@/assets/js/validation/password.js'
+import emailValidation from '@/assets/js/validation/email.js'
 import validationRules from '@/assets/js/validation/rules.js'
 
 export default {
@@ -22,22 +23,19 @@ export default {
       type: String,
       default: '',
     },
-    label: {
-      type: String,
-      default: 'Password',
+    disabled: {
+      type: Boolean,
+      default: false,
     },
-    additionalRules: {
-      type: Array,
-      default: () => [],
+    hint: {
+      type: String,
+      default: '',
     },
   },
   data: vm => ({
-    maxLength: passwordValidation.maxLength,
     rules: [
       validationRules.required,
-      validationRules.minLength(passwordValidation.minLength),
-      validationRules.maxLength(passwordValidation.maxLength),
-      ...vm.additionalRules,
+      emailValidation.pattern,
     ],
   }),
   methods: {

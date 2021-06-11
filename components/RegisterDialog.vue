@@ -19,11 +19,18 @@
             text
             dismissible
           >
-            Account already exists.
+            Account already exists
           </v-alert>
           <NameField
             ref="nameField"
             v-model="name"
+            @submit="register"
+          />
+          <EmailField
+            ref="emailField"
+            v-model="email"
+            disabled
+            hint="Example"
             @submit="register"
           />
           <UsernameField
@@ -69,6 +76,7 @@ export default {
     show: false,
     isValid: false,
     name: '',
+    email: '',
     username: '',
     password: '',
     registerFailed: false,
@@ -77,9 +85,11 @@ export default {
     open() {
       this.show = true
       this.name = ''
+      this.email = ''
       this.username = ''
       this.password = ''
       this.$refs.nameField?.resetValidation()
+      this.$refs.emailField?.resetValidation()
       this.$refs.usernameField?.resetValidation()
       this.$refs.passwordField?.resetValidation()
     },
