@@ -29,12 +29,12 @@
         <LogoutButton :only-icon="isMini" />
       </div>
     </div>
-    <div v-show="!realmApp || !realmApp.currentUser || true">
+    <div v-show="!realmApp || !realmApp.currentUser">
       <div class="text-center mt-4">
-        <LoginButton :only-icon="isMini" />
+        <LoginButton />
       </div>
       <div class="text-center my-4">
-        <RegisterButton :only-icon="isMini" />
+        <RegisterButton />
       </div>
     </div>
   </v-navigation-drawer>
