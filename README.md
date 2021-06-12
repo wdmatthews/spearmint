@@ -1,10 +1,8 @@
 # spearmint
+This is an incomplete project meant to show examples and was mostly focused on UI design and learning Vue/NuxtJS.
 
 ## Realm Rules
 Any security rules and schemas used by Realm can be found under /realm-rules
-
-## Realm Functions
-Any functions used by Realm can be found under /realm-functions
 
 ## Build Setup
 ```bash
